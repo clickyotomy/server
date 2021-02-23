@@ -81,33 +81,6 @@ fetch next rows only;
 a
 2
 #
-# Include offset after fetch clause.
-#
-select * from t1
-order by a
-fetch first row only
-offset 2;
-a
-2
-select * from t1
-order by a
-fetch first rows only
-offset 2;
-a
-2
-select * from t1
-order by a
-fetch next row only
-offset 2;
-a
-2
-select * from t1
-order by a
-fetch next rows only
-offset 2;
-a
-2
-#
 # Repeat the tests, but now with WITH TIES.
 # WITH TIES requires order by.
 #
@@ -175,41 +148,6 @@ select * from t1
 order by a
 offset 2
 fetch next rows with ties;
-a
-2
-2
-#
-# Include offset after fetch clause.
-#
-select * from t1
-fetch first row with ties
-offset 2;
-ERROR HY000: WITH TIES requires ORDER BY clause to be present
-select * from t1
-order by a
-fetch first row with ties
-offset 2;
-a
-2
-2
-select * from t1
-order by a
-fetch first rows with ties
-offset 2;
-a
-2
-2
-select * from t1
-order by a
-fetch next row with ties
-offset 2;
-a
-2
-2
-select * from t1
-order by a
-fetch next rows with ties
-offset 2;
 a
 2
 2
@@ -274,41 +212,6 @@ a
 3
 2
 #
-# Include offset after fetch clause.
-#
-select * from t1
-order by a
-fetch first 3 row only
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch first 3 rows only
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch next 3 row only
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch next 3 rows only
-offset 2;
-a
-2
-2
-3
-#
 # Repeat the tests, but now with WITH TIES.
 # WITH TIES requires order by.
 #
@@ -391,45 +294,6 @@ select * from t1
 order by a
 offset 2
 fetch next 3 rows with ties;
-a
-2
-2
-3
-#
-# Include offset after fetch clause.
-#
-select * from t1
-fetch first row with ties
-offset 2;
-ERROR HY000: WITH TIES requires ORDER BY clause to be present
-select * from t1
-order by a
-fetch first 3 row with ties
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch first 3 rows with ties
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch next 3 row with ties
-offset 2;
-a
-2
-2
-3
-select * from t1
-order by a
-fetch next 3 rows with ties
-offset 2;
 a
 2
 2
@@ -534,8 +398,8 @@ id	first_name	last_name	score
 6	John	Elton	8.1
 select * from t1
 order by first_name, last_name
-fetch first 3 rows with ties
-offset 1;
+offset 1
+fetch first 3 rows with ties;
 id	first_name	last_name	score
 7	Bob	Trasc	9
 2	John	Doe	6
@@ -786,9 +650,9 @@ offset 1
 fetch first 2 rows with ties;
 first_name	last_name	sum(score)
 Bob	Trasc	9
+John	Doe	6
 John	Elton	8.1
 John	Smith	19
-John	Doe	6
 #
 # Test with ties when an index is used to provide the order by.
 #

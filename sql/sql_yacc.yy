@@ -12259,17 +12259,6 @@ fetch_first_clause:
             $$.explicit_limit= true;
             $$.with_ties= $6;
           }
-        | FETCH_SYM first_or_next row_or_rows only_or_with_ties
-          OFFSET_SYM limit_option
-          {
-            Item *one= new (thd->mem_root) Item_int(thd, (int32) 1);
-            if (unlikely(one == NULL))
-              MYSQL_YYABORT;
-            $$.select_limit= one;
-            $$.offset_limit= $6;
-            $$.explicit_limit= true;
-            $$.with_ties= $4;
-          }
         | FETCH_SYM first_or_next limit_option row_or_rows only_or_with_ties
           {
             $$.select_limit= $3;
@@ -12284,14 +12273,6 @@ fetch_first_clause:
             $$.offset_limit= $2;
             $$.explicit_limit= true;
             $$.with_ties= $7;
-          }
-        | FETCH_SYM first_or_next limit_option row_or_rows only_or_with_ties
-          OFFSET_SYM limit_option
-          {
-            $$.select_limit= $3;
-            $$.offset_limit= $7;
-            $$.explicit_limit= true;
-            $$.with_ties= $5;
           }
         ;
 
