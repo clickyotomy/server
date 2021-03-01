@@ -66,3 +66,4 @@ drop function fn16456;
 eval set binlog_format=$oblf;
 eval set global log_bin_trust_function_creators=$otfc;
 --enable_query_log
+--source include/rpl_end.inc

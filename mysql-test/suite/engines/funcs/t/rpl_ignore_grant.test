@@ -9,9 +9,7 @@ connection master;
 delete from mysql.user where user=_binary'rpl_ignore_grant';
 delete from mysql.db where user=_binary'rpl_ignore_grant';
 flush privileges;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 # as these DELETE were not replicated, we need to do them manually on the
 # slave.
 delete from mysql.user where user=_binary'rpl_ignore_grant';
@@ -23,9 +21,7 @@ connection master;
 grant select on *.* to rpl_ignore_grant@localhost;
 grant drop on test.* to rpl_ignore_grant@localhost;
 show grants for rpl_ignore_grant@localhost;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 --error 1141 #("no such grant for user")
 show grants for rpl_ignore_grant@localhost;
 # check it another way
@@ -39,9 +35,7 @@ select count(*) from mysql.db where user=_binary'rpl_ignore_grant';
 grant select on *.* to rpl_ignore_grant@localhost;
 connection master;
 set password for rpl_ignore_grant@localhost=password("does it work?");
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 select password<>_binary'' from mysql.user where user=_binary'rpl_ignore_grant';
 
 # clear what we have done, to not influence other tests.
@@ -49,9 +43,7 @@ connection master;
 delete from mysql.user where user=_binary'rpl_ignore_grant';
 delete from mysql.db where user=_binary'rpl_ignore_grant';
 flush privileges;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 delete from mysql.user where user=_binary'rpl_ignore_grant';
 delete from mysql.db where user=_binary'rpl_ignore_grant';
 flush privileges;

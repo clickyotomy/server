@@ -95,6 +95,7 @@ DROP PROCEDURE IF EXISTS test.p7;
 DROP TABLE IF EXISTS test.t1;
 DROP TABLE IF EXISTS test.t2;
 sync_slave_with_master;
+--source include/rpl_end.inc
 
 # Lets compare. Note: If they match test will pass, if they do not match
 # the test will show that the diff statement failed and not reject file

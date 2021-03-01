@@ -1,10 +1,8 @@
-stop slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
+include/master-slave.inc
+[connection master]
+connection slave;
 reset master;
-reset slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-start slave;
-reset master;
+connection master;
 create table t1(n char(30));
 set @i1:=12345678901234, @i2:=-12345678901234, @i3:=0, @i4:=-1;
 set @s1:='This is a test', @r1:=12.5, @r2:=-12.5;
@@ -23,6 +21,7 @@ set @a:=5;
 insert into t1 values (@a),(@a);
 select * from t1 where n = '<nonexistant>';
 n
+connection master1;
 insert into t1 values (@a),(@a),(@a*5);
 SELECT * FROM t1 ORDER BY n;
 n
@@ -51,6 +50,7 @@ abcn1
 abcn1n2
 abc\def
 This is a test
+connection slave;
 SELECT * FROM t1 ORDER BY n;
 n
 NULL
@@ -78,6 +78,8 @@ abcn1
 abcn1n2
 abc\def
 This is a test
+connection master;
 insert into t1 select * FROM (select @var1 union  select @var2) AS t2;
 drop table t1;
+connection slave;
 stop slave;

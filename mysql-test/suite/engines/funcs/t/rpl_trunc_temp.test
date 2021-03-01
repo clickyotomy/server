@@ -33,3 +33,4 @@ show status like 'Slave_open_temp_tables';
 
 
 # End of 4.1 tests
+--source include/rpl_end.inc

@@ -77,6 +77,6 @@ DROP TABLE IF EXISTS mysqltest1.t2;
 DROP TABLE IF EXISTS mysqltest1.t4;
 DROP DATABASE mysqltest1;
 sync_slave_with_master;
-
+--source include/rpl_end.inc
 # End of 5.1 test case
 

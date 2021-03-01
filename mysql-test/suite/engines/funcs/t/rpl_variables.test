@@ -19,3 +19,4 @@ show variables like 'slave_skip_errors';
 # Cleanup
 set global slave_net_timeout=@my_slave_net_timeout;
 set global sql_slave_skip_counter=@my_sql_slave_skip_counter;
+--source include/rpl_end.inc

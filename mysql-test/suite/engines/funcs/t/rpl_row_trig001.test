@@ -88,6 +88,7 @@ DROP TABLE test.t1;
 DROP TABLE test.t2;
 DROP TABLE test.t3;
 sync_slave_with_master;
+--source include/rpl_end.inc
 
 # Lets compare. Note: If they match test will pass, if they do not match
 # the test will show that the diff statement failed and not reject file

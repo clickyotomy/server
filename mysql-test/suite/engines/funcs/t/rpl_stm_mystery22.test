@@ -62,5 +62,5 @@ select * from t1 order by n;
 connection master;
 drop table t1;
 sync_slave_with_master;
-
+--source include/rpl_end.inc
 # End of 4.1 tests

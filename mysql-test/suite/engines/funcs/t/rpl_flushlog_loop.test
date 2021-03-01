@@ -46,3 +46,4 @@ sleep 5;
 --vertical_results
 SHOW SLAVE STATUS;
 STOP SLAVE;
+--source include/rpl_end.inc

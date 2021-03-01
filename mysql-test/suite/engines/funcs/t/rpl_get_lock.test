@@ -23,9 +23,7 @@ while ($1)
   dec $1;
 }
 enable_query_log;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 select get_lock("lock",3);
 select * from t1;
 # There is no point in testing REPLICATIION of the IS_*_LOCK
@@ -42,8 +40,7 @@ select is_free_lock("lock2");
 select is_free_lock(NULL);
 connection master1;
 drop table t1;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 
 # End of 4.1 tests
+--source include/rpl_end.inc

@@ -1,9 +1,6 @@
-stop slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-reset master;
-reset slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-start slave;
+include/master-slave.inc
+[connection master]
+connection slave;
 select master_pos_wait('master-bin.999999',0,2);
 master_pos_wait('master-bin.999999',0,2)
 -1
@@ -13,6 +10,10 @@ id	select_type	table	type	possible_keys	key	key_len	ref	rows	filtered	Extra
 Warnings:
 Note	1003	select master_pos_wait('master-bin.999999',0,2) AS `master_pos_wait('master-bin.999999',0,2)`
 select master_pos_wait('master-bin.999999',0);
+connection slave1;
 stop slave sql_thread;
+connection slave;
 master_pos_wait('master-bin.999999',0)
 NULL
+start slave sql_thread;
+include/rpl_end.inc

@@ -206,3 +206,5 @@ drop function f1;
 drop function f2;
 drop procedure p1;
 sync_slave_with_master;
+
+--source include/rpl_end.inc

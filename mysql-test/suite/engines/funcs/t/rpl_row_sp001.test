@@ -86,9 +86,7 @@ delimiter ;//
 INSERT INTO test.t2 VALUES(NULL,'NEW'),(NULL,'NEW'),(NULL,'NEW'),(NULL,'NEW');
 
 SELECT * FROM t2 ORDER BY a;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 SELECT * FROM t2 ORDER BY a;
 
 connection master;
@@ -101,17 +99,13 @@ SELECT * FROM t2 ORDER BY a;
 connection master;
 call test.p2(2);
 SELECT * FROM t2 ORDER BY a;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 SELECT * FROM t2 ORDER BY a;
 
 connection master;
 call test.p2(3);
 SELECT * FROM t2 ORDER BY a;
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 SELECT * FROM t2 ORDER BY a;
 
 ##Used for debugging
@@ -143,4 +137,5 @@ diff_files $MYSQLTEST_VARDIR/tmp/sp001_master.sql $MYSQLTEST_VARDIR/tmp/sp001_sl
 remove_file $MYSQLTEST_VARDIR/tmp/sp001_master.sql;
 remove_file $MYSQLTEST_VARDIR/tmp/sp001_slave.sql;
 
+--source include/rpl_end.inc
 # End of 5.0 test case

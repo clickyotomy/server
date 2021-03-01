@@ -10,3 +10,8 @@ sync_with_master;
 # Restoring to the original state
 connection master;
 alter database collate latin1_swedish_ci;
+save_master_pos;
+
+connection slave;
+sync_with_master;
+--source include/rpl_end.inc

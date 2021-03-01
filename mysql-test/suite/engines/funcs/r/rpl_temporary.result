@@ -1,11 +1,14 @@
-stop slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
+include/master-slave.inc
+[connection master]
+connection slave;
 reset master;
-reset slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-start slave;
-reset master;
+connection master;
+connect  con1,localhost,root,,;
+connection con1;
 CREATE USER ''@localhost;
+connect  con2,localhost,root,,;
+connect  con3,localhost,zedjzlcsjhd,,;
+connection con3;
 SET @save_select_limit=@@session.sql_select_limit;
 SET @@session.sql_select_limit=10, @@session.pseudo_thread_id=100;
 ERROR 42000: Access denied; you need (at least one of) the SUPER privilege(s) for this operation
@@ -17,20 +20,28 @@ ERROR 42000: Access denied; you need (at least one of) the SUPER privilege(s) fo
 SELECT @@session.sql_select_limit = @save_select_limit;
 @@session.sql_select_limit = @save_select_limit
 1
+connection con2;
 SET @@session.pseudo_thread_id=100;
 SET @@session.pseudo_thread_id=connection_id();
 SET @@session.sql_log_bin=0;
 SET @@session.sql_log_bin=1;
+connection con3;
 drop table if exists t1,t2;
 create table t1(f int);
 create table t2(f int);
 insert into t1 values (1),(2),(3),(4),(5),(6),(7),(8),(9),(10);
+connection con1;
 create temporary table t3(f int);
 insert into t3 select * from t1 where f<6;
+connection con2;
 create temporary table t3(f int);
+connection con1;
 insert into t2 select count(*) from t3;
+connection con2;
 insert into t3 select * from t1 where f>=4;
+connection con1;
 drop temporary table t3;
+connection con2;
 insert into t2 select count(*) from t3;
 drop temporary table t3;
 select * from t2 ORDER BY f;
@@ -75,15 +86,19 @@ f
 7
 drop table t1,t2;
 create temporary table t3 (f int);
+connection master;
 create temporary table t4 (f int);
 create table t5 (f int);
 select id from information_schema.processlist where command='Binlog Dump' into @id;
 kill @id;
 insert into t5 select * from t4;
+connection slave;
 select * from t5 /* must be 1 after reconnection */;
 f
+connection master;
 drop temporary table t4;
 drop table t5;
+connection con1;
 set @@session.pseudo_thread_id=100;
 create temporary table t101 (id int);
 create temporary table t102 (id int);
@@ -96,13 +111,20 @@ create temporary table t301 (id int);
 create temporary table t302 (id int);
 create temporary table `#sql_not_user_table303` (id int);
 DROP USER ''@localhost;
+disconnect con1;
+connection master;
 create table t1(f int);
 insert into t1 values (1);
+connection slave;
 select * from t1 /* must be 1 */;
 f
 1
+connection master;
 drop table t1;
+connection slave;
 select * from t1;
 a
 1
+connection master;
 drop table t1;
+include/rpl_end.inc

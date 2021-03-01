@@ -1,14 +1,11 @@
-stop slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-reset master;
-reset slave;
-drop table if exists t1,t2,t3,t4,t5,t6,t7,t8,t9;
-start slave;
+include/master-slave.inc
+[connection master]
 **** On Master ****
 CREATE TABLE t1 (a INT, b LONG);
 INSERT INTO t1 VALUES (1,1), (2,2);
 INSERT INTO t1 VALUES (3,UUID()), (4,UUID());
 SHOW BINLOG EVENTS;
+connection slave;
 **** On Slave ****
 SHOW SLAVE STATUS;
 Slave_IO_State	#
@@ -51,5 +48,17 @@ Last_SQL_Errno	0
 Last_SQL_Error	
 Replicate_Ignore_Server_Ids	
 Master_Server_Id	1
+Master_SSL_Crl	
+Master_SSL_Crlpath	
+Using_Gtid	No
+Gtid_IO_Pos	
+Replicate_Do_Domain_Ids	
+Replicate_Ignore_Domain_Ids	
+Parallel_Mode	conservative
+SQL_Delay	0
+SQL_Remaining_Delay	NULL
+Slave_SQL_Running_State	Slave has read all relay log; waiting for the slave I/O thread to update it
 SHOW BINLOG EVENTS;
+connection master;
 DROP TABLE IF EXISTS t1;
+include/rpl_end.inc

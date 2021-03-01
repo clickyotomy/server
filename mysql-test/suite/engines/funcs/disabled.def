@@ -1,97 +1,17 @@
 # List of disabled tests
 # test name : comment
-rpl_redirect : Fails due to bug#49978
-crash_manycolumns_string : Bug#50495 'Row size too large' for plugin, but works for built-in innodb
-ix_unique_lob : Bug#52283 Innodb reports extra warnings when SELECT/WHERE is performed using invalid value
-ix_unique_string_length : Bug#52283 Innodb reports extra warnings when SELECT/WHERE is performed using invalid value
-rpl_empty_master_crash    : Test not applicable in 5.5+
-rpl_REDIRECT              : Test not applicable in 5.5+
 
-rpl_create_database : Result Difference Due To Change In .inc file
-rpl_loaddata_m : Result Difference Due To Change In .inc file
-rpl_sp_effects : Result Difference Due To Change In .inc file
-rpl_variables : Result Difference Due To Change In .inc file
-rpl_loaddata_s : Result Difference Due To Change In .inc file
-rpl_dual_pos_advance : Result Difference Due To Change In .inc file
-rpl000011 : Result Difference Due To Change In .inc file
-rpl000013 : Result Difference Due To Change In .inc file
-rpl_000015 : Result Difference Due To Change In .inc file
-rpl_LD_INFILE : Result Difference Due To Change In .inc file
-rpl_alter : Result Difference Due To Change In .inc file
-rpl_alter_db : Result Difference Due To Change In .inc file
-rpl_alter_db : Result Difference Due To Change In .inc file
-rpl_bit : Result Difference Due To Change In .inc file
-rpl_bit_npk : Result Difference Due To Change In .inc file
-rpl_change_master : Result Difference Due To Change In .inc file
-rpl_do_grant : Result Difference Due To Change In .inc file
-rpl_drop : Result Difference Due To Change In .inc file
-rpl_drop_db : Result Difference Due To Change In .inc file
-rpl_flushlog_loop : Result Difference Due To Change In .inc file
-rpl_get_lock : Result Difference Due To Change In .inc file
-rpl_get_lock : Result Difference Due To Change In .inc file
-rpl_insert : Result Difference Due To Change In .inc file
-rpl_insert_select : Result Difference Due To Change In .inc file
-rpl_loaddata2 : Result Difference Due To Change In .inc file
-rpl_loaddatalocal : Result Difference Due To Change In .inc file
-rpl_loadfile : Result Difference Due To Change In .inc file
-rpl_log_pos : Result Difference Due To Change In .inc file
-rpl_many_optimize : Result Difference Due To Change In .inc file
-rpl_master_pos_wait : Result Difference Due To Change In .inc file
-rpl_misc_functions : Result Difference Due To Change In .inc file
-rpl_ps : Result Difference Due To Change In .inc file
-rpl_server_id1 : Result Difference Due To Change In .inc file
-rpl_session_var : Result Difference Due To Change In .inc file
-rpl_sf : Result Difference Due To Change In .inc file
-rpl_slave_status : Result Difference Due To Change In .inc file
-rpl_sp004 : Result Difference Due To Change In .inc file
-rpl_start_stop_slave : Result Difference Due To Change In .inc file
-rpl_stm_max_relay_size : Result Difference Due To Change In .inc file
-rpl_stm_mystery22 : Result Difference Due To Change In .inc file
-rpl_stm_no_op : Result Difference Due To Change In .inc file
-rpl_stm_reset_slave : Result Difference Due To Change In .inc file
-rpl_temp_table : Result Difference Due To Change In .inc file
-rpl_temporary : Result Difference Due To Change In .inc file
-rpl_trigger : Result Difference Due To Change In .inc file
-rpl_trunc_temp : Result Difference Due To Change In .inc file
-rpl_user_variables : Result Difference Due To Change In .inc file
-rpl_server_id2 : Result Difference Due To Change In .inc file
-rpl000010 : Result Difference Due To Change In .inc file
-rpl_init_slave : Result Difference Due To Change In .inc file
-rpl_multi_delete2 : Result Difference Due To Change In .inc file
-rpl_view : Result Difference Due To Change In .inc file
-rpl_ignore_table_update : Result Difference Due To Change In .inc file
-rpl_err_ignoredtable : Result Difference Due To Change In .inc file
-rpl_multi_update4 : Result Difference Due To Change In .inc file
-rpl_multi_delete : Result Difference Due To Change In .inc file
-rpl_ignore_grant : Result Difference Due To Change In .inc file
-rpl_ignore_revoke : Result Difference Due To Change In .inc file
-rpl_free_items : Result Difference Due To Change In .inc file
-rpl_replicate_ignore_db : Result Difference Due To Change In .inc file
-rpl000017 : Result Difference Due To Change In .inc file
-rpl_skip_error : Result Difference Due To Change In .inc file
+crash_manycolumns_string : Bug#50495 'Row size too large' for plugin, but works for built-in innodb [ERROR] InnoDB: Cannot add field `c726` in table `test`.`t1` because after adding it, the row size is 8135 which is greater than maximum allowed size (8126 bytes) for a record on index leaf page
 
-rpl_loaddata_s : Test Present in rpl suite as well . Test Fails due to bin log truncation.
-rpl_log_pos : Test Present in rpl suite as well . Test Fails due to bin log truncation.
-rpl_row_NOW : Result Difference Due To Change In .inc file
-rpl_row_USER : Result Difference Due To Change In .inc file
-rpl_row_drop : Result Difference Due To Change In .inc file
-rpl_row_func001 : Result Difference Due To Change In .inc file
-rpl_row_max_relay_size : Result Difference Due To Change In .inc file
-rpl_row_reset_slave : Result Difference Due To Change In .inc file
-rpl_row_sp001 : Result Difference Due To Change In .inc file
-rpl_row_sp005 : Result Difference Due To Change In .inc file
-rpl_row_sp008 : Result Difference Due To Change In .inc file
-rpl_row_sp009 : Result Difference Due To Change In .inc file
-rpl_row_sp010 : Result Difference Due To Change In .inc file
-rpl_row_sp011 : Result Difference Due To Change In .inc file
-rpl_row_sp012 : Result Difference Due To Change In .inc file
-rpl_row_stop_middle : Result Difference Due To Change In .inc file
-rpl_row_trig001 : Result Difference Due To Change In .inc file
-rpl_row_trig002 : Result Difference Due To Change In .inc file
-rpl_row_trig003 : Result Difference Due To Change In .inc file
-rpl_row_view01 : Result Difference Due To Change In .inc file
-rpl_switch_stm_row_mixed : Result Difference Due To Change In .inc file
-rpl_relayspace : Result Difference Due To Change In .inc file
-rpl_row_inexist_tbl : Result Difference Due To Change In .inc file
-rpl_sp : Result Difference Due To Change In .inc file
-rpl_rbr_to_sbr : Result Difference Due To Change In .inc file
+rpl_do_grant : 'grant select on *.* to rpl_ignore_grant@localhost' failed
+rpl_ignore_grant : query 'grant select on *.* to rpl_ignore_grant@localhost' failed: 1133: Can't find any matching row in the user table
+rpl_row_USER :  query 'GRANT ALL ON mysqltest1.* TO ''@'localhost%'' 
+rpl_row_sp012 : 'grant usage on *.* to user1@localhost' failed: 1133: Can't find any matching row in the user table
+rpl_server_id1:
+rpl_slave_status: Last_IO_Error	error connecting to master 'rpl@127.0.0.1:16000' 
+rpl_sp: grant CREATE ROUTINE, EXECUTE on mysqltest1.* to "zedjzlcsjhd"@127.0.0.1' failed: 1133: Can't find any matching row in the user table
+rpl_switch_stm_row_mixed:  At line 130: query 'create table t4 select * from t1 where 3 in (select 1 union select 2 union select UUID() union select 3)' failed: 1292: Truncated incorrect DOUBLE value: '1ff32adb-7779-11eb-9653-7c76352d1ab8'
+rpl_temporary: +Slave_open_temp_tables	1
+rpl_trigger : check if it returns the correct answer
+rpl_log_pos: line 52: sync_with_master failed: 'select master_pos_wait('master-bin.000001', 940, 300, '')' returned -1 indicating timeout after 300 seconds--'bogus data in log event; the first event 'master-bin.000001' at 207, the last event read from 'master-bin.000001' at 207, the last byte read from 'master-bin.000001' at 226.'
+rpl_row_inexist_tbl : Error executing row event: 'Table 'test.t1' doesn't exist'

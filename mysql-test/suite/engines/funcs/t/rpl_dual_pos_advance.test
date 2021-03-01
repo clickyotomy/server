@@ -78,9 +78,7 @@ create table t4 (n int); # create 3 ignored events
 create table t5 (n int);
 create table t6 (n int);
 
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 
 connection slave;
 
@@ -101,8 +99,7 @@ stop slave;
 reset slave;
 drop table t1,t4,t5,t6; # add t2 and t3 later
 
-save_master_pos;
-connection slave;
-sync_with_master;
+--sync_slave_with_master
 
 # End of 4.1 tests
+--source include/rpl_end.inc

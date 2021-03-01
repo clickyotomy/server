@@ -1,6 +1,6 @@
 # Testcase for BUG#10456 - INSERT INTO ... SELECT violating a primary key
 # breaks replication
-
+-- source include/have_binlog_format_mixed_or_row.inc
 -- source include/master-slave.inc
 connection master;
 
@@ -17,3 +17,4 @@ select * from t1;
 connection master;
 drop table t1,t2;
 sync_slave_with_master;
+--source include/rpl_end.inc

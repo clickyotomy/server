@@ -50,5 +50,5 @@ connection master;
 DROP PROCEDURE IF EXISTS test.p1;
 DROP TABLE test.t1;
 sync_slave_with_master;
-
+--source include/rpl_end.inc
 # End of 5.0 test case

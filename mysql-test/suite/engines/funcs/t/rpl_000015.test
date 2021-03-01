@@ -49,3 +49,4 @@ connection master;
 SELECT * FROM t1 ORDER BY n;
 drop table t1;
 sync_slave_with_master;
+--source include/rpl_end.inc
