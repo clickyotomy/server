@@ -498,9 +498,6 @@ order by first_name
 offset 1
 fetch first 2 rows with ties;
 
---echo #
---echo # Test with ties when an index is used to provide the order by.
---echo #
 
 
 drop table t1;
@@ -509,17 +506,88 @@ drop view v1;
 drop view v2;
 drop view v3;
 
+--echo #
+--echo # Test with ties when an index is used to provide the order by.
+--echo #
+create table t1 (id int, first_name varchar(100), last_name varchar(100), score double);
+
+create index t1_name on t1 (first_name, last_name);
+
+insert into t1 values
+  (1, 'Alice', 'Fowler', 5),
+  (2, 'John', 'Doe', 6),
+  (3, 'John', 'Smith', 6),
+  (4, 'John', 'Smith', 6),
+  (5, 'John', 'Smith', 7),
+  (6, 'John', 'Elton', 8.1),
+  (7, 'Bob',  'Trasc', 9),
+  (8, 'Silvia', 'Ganush', 10);
+
+explain select first_name, last_name
+from t1
+order by first_name
+offset 1
+fetch first 2 rows with ties;
+
+explain select first_name, last_name
+from t1
+order by first_name desc
+fetch first 2 rows with ties;
 
 
-#(select * from t1
-#order by a
-#fetch first 3 rows with ties
-#offset 1)
-#union all
-#select * from t1
-#order by a;
+select first_name, last_name
+from t1
+order by first_name
+offset 1
+fetch first 2 rows with ties;
+
+select first_name, last_name
+from t1
+order by first_name desc
+fetch first 2 rows with ties;
 
 
+select first_name, last_name
+from t1
+order by first_name desc
+offset 1
+fetch first 2 rows with ties;
+
+select first_name, last_name
+from t1
+order by first_name desc
+offset 4
+fetch first 2 rows with ties;
+
+select first_name, last_name
+from t1
+order by first_name desc
+offset 4
+fetch first 3 rows with ties;
+
+explain select first_name, last_name
+from t1
+where first_name != 'John'
+order by first_name
+fetch first 2 rows with ties;
+
+select first_name, last_name
+from t1
+where first_name != 'John'
+order by first_name
+fetch first 2 rows with ties;
+
+
+
+select first_name, last_name
+from t1
+where first_name != 'John'
+group by first_name, last_name
+order by first_name
+fetch first 2 rows with ties;
+
+
+drop table t1;
 
 # Test variables referenced.
 # Subqueries

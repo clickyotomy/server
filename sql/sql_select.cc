@@ -3693,8 +3693,6 @@ bool JOIN::make_aggr_tables_info()
          select_limit : unit->lim.get_select_limit();
       if (unit->lim.is_with_ties())
       {
-        if (alloc_order_fields(this, order))
-          DBUG_RETURN(true);
         sort_tab->filesort->limit= HA_POS_ERROR;
       }
     }
@@ -3732,6 +3730,13 @@ bool JOIN::make_aggr_tables_info()
   }
   if (select_lex->custom_agg_func_used())
     status_var_increment(thd->status_var.feature_custom_aggregate_functions);
+
+  /* Allocate Cached_items of ORDER BY for FETCH FIRST .. WITH TIES. */
+  if (unit->lim.is_with_ties())
+  {
+    if (alloc_order_fields(this, order))
+      DBUG_RETURN(true);
+  }
 
   fields= curr_fields_list;
   // Reset before execution
