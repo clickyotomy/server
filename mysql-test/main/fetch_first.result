@@ -37,8 +37,6 @@ offset
 # Test the alias between row / rows and first / next.
 # Test ONLY vs WITH TIES.
 #
-# Cover also the presence of offset before or after FETCH clause.
-#
 select * from t1
 fetch first row only;
 a
@@ -760,4 +758,124 @@ fetch first 2 rows with ties;
 first_name	last_name
 Alice	Fowler
 Bob	Trasc
+#
+# Test CTE support.
+#
+explain with temp_table as (
+select first_name, last_name
+from t1
+where first_name != 'John'
+  group by first_name, last_name
+order by first_name
+fetch first 2 rows with ties
+)
+select * from temp_table;
+id	select_type	table	type	possible_keys	key	key_len	ref	rows	Extra
+1	PRIMARY	<derived2>	ALL	NULL	NULL	NULL	NULL	2	
+2	DERIVED	t1	range	t1_name	t1_name	103	NULL	3	Using where; Using index; Using temporary; Using filesort
+with temp_table as (
+select first_name, last_name
+from t1
+group by first_name, last_name
+order by first_name
+fetch first 3 rows with ties
+)
+select * from temp_table;
+first_name	last_name
+Alice	Fowler
+Bob	Trasc
+John	Smith
+John	Elton
+John	Doe
+with temp_table as (
+select first_name, last_name
+from t1
+group by first_name, last_name
+order by first_name
+fetch first 3 rows with ties
+)
+select * from temp_table
+order by last_name
+fetch first 3 rows with ties;
+first_name	last_name
+John	Doe
+John	Elton
+Alice	Fowler
+with temp_table as (
+select first_name, last_name
+from t1
+group by first_name, last_name
+order by first_name
+fetch first 3 rows with ties
+)
+select * from temp_table
+order by first_name
+fetch first 3 rows with ties;
+first_name	last_name
+Alice	Fowler
+Bob	Trasc
+John	Doe
+John	Elton
+John	Smith
+with temp_table as (
+select first_name, last_name
+from t1
+group by first_name, last_name
+order by first_name
+fetch first 3 rows with ties
+)
+select * from temp_table
+order by first_name
+offset 1
+fetch first 2 rows with ties;
+first_name	last_name
+Bob	Trasc
+John	Doe
+John	Elton
+John	Smith
+select first_name, last_name, row_number() over () rn
+from t1
+order by rn
+offset 1
+fetch first 2 rows with ties;
+first_name	last_name	rn
+Bob	Trasc	2
+John	Smith	3
+select first_name, last_name, row_number() over () rn
+from t1
+order by rn desc
+offset 1
+fetch first 2 rows with ties;
+first_name	last_name	rn
+John	Smith	7
+John	Doe	6
+select first_name, last_name, score, rank() over (ORDER BY score)
+from t1
+order by rank() over (ORDER BY score)
+fetch first 3 rows with ties;
+first_name	last_name	score	rank() over (ORDER BY score)
+Alice	Fowler	5	1
+John	Smith	6	2
+John	Smith	6	2
+John	Doe	6	2
+select first_name, last_name, score, rank() over (ORDER BY score)
+from t1
+order by rank() over (ORDER BY score)
+offset 1
+fetch first 2 rows with ties;
+first_name	last_name	score	rank() over (ORDER BY score)
+John	Smith	6	2
+John	Smith	6	2
+John	Doe	6	2
+select first_name, last_name, score, rank() over (ORDER BY score)
+from t1
+order by rank() over (ORDER BY score)
+fetch first 6 rows with ties;
+first_name	last_name	score	rank() over (ORDER BY score)
+Alice	Fowler	5	1
+John	Smith	6	2
+John	Smith	6	2
+John	Doe	6	2
+John	Smith	7	5
+John	Elton	8.1	6
 drop table t1;
