@@ -959,6 +959,7 @@ enum options_xtrabackup
   OPT_INNODB_CHECKSUM_ALGORITHM,
   OPT_INNODB_UNDO_DIRECTORY,
   OPT_INNODB_UNDO_TABLESPACES,
+  OPT_INNODB_FORCE_RECOVERY,
   OPT_XTRA_INCREMENTAL_FORCE_SCAN,
   OPT_DEFAULTS_GROUP,
   OPT_CLOSE_FILES,
@@ -1570,6 +1571,11 @@ struct my_option xb_server_options[] =
    (G_PTR*)&srv_undo_tablespaces, (G_PTR*)&srv_undo_tablespaces,
    0, GET_ULONG, REQUIRED_ARG, 0, 0, 126, 0, 1, 0},
 
+  {"innodb_force_recovery", OPT_INNODB_FORCE_RECOVERY,
+   "Crash recovery mode (for emergencies).",
+   (G_PTR*)&srv_force_recovery, (G_PTR*)&srv_force_recovery,
+   0, GET_UINT, OPT_ARG, 0, 0, 6, 0, 0, 0},
+
   {"innodb_compression_level", OPT_INNODB_COMPRESSION_LEVEL,
    "Compression level used for zlib compression.",
    (G_PTR*)&page_zip_level, (G_PTR*)&page_zip_level,
@@ -1899,6 +1905,11 @@ xb_get_one_option(const struct my_option *opt,
   case OPT_INNODB_UNDO_TABLESPACES:
 
     ADD_PRINT_PARAM_OPT(srv_undo_tablespaces);
+    break;
+
+  case OPT_INNODB_FORCE_RECOVERY:
+
+    ADD_PRINT_PARAM_OPT(srv_force_recovery);
     break;
 
   case OPT_INNODB_CHECKSUM_ALGORITHM:
